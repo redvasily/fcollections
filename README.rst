@@ -13,7 +13,9 @@ Motivation
 
 It's possible to write a single-statement in every decent programming language.
 
-Python::
+Python:
+
+.. code:: python
 
     def qsort(l):
         return [] if not l else (
@@ -22,7 +24,9 @@ Python::
             qsort([n for n in l[1:] if n > l[0]]))
 
 
-Erlang::
+Erlang:
+
+.. code:: python
 
     qsort(L) ->
         case L of
@@ -32,7 +36,9 @@ Erlang::
         end.
 
 
-Java::
+Java:
+
+.. code:: java
 
     public static List<Integer> qsort(List<Integer> l) {
       return l.isEmpty()
@@ -47,7 +53,9 @@ Java::
             .collect(Collectors.toList());
     }
 
-Scala::
+Scala:
+
+.. code:: scala
 
     def qsort(l: Seq[Int]): Seq[Int] = l match {
       case Seq(h, t @ _ *) => qsort(t.filter(_ <= h)) ++
@@ -55,7 +63,9 @@ Scala::
       case _ => l
     }
 
-F#::
+F#:
+
+.. code:: fsharp
 
     let rec qsort l =
       match l with
