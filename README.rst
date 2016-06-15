@@ -26,7 +26,7 @@ Python:
 
 Erlang:
 
-.. code:: python
+.. code:: erlang
 
     qsort(L) ->
         case L of
