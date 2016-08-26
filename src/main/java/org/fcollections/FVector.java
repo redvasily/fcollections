@@ -169,5 +169,33 @@ public class FVector<E> extends AbstractList<E> implements PVector<E> {
     return acc;
   }
 
+  @Override
+  @Deprecated
+  public boolean add(E e) {
+    throw new UnsupportedOperationException();
+  }
 
+  @Override
+  @Deprecated
+  public boolean addAll(int i, Collection<? extends E> collection) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  @Deprecated
+  public E set(int i, E e) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  @Deprecated
+  public E remove(int i) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  @Deprecated
+  protected void removeRange(int i, int i1) {
+    throw new UnsupportedOperationException();
+  }
 }
