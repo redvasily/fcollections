@@ -11,7 +11,7 @@ It's implemented as a functional wrapper around pcollections_.
 Motivation
 ==========
 
-It's possible to write a single-statement in every decent programming language.
+It's possible to write a single-statement quicksort in every decent programming language.
 
 Python:
 
@@ -93,8 +93,6 @@ Fcollections make the following code possible:
 ======
 Status
 ======
-
-Good jokes mate real funny see u at JAX INNOVATION AWARDSJ.
 
 Seriously though, this is a joke. FVector in this library has only enough methods for
 a quicksort implementation.
