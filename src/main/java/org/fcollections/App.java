@@ -1,5 +1,7 @@
 package org.fcollections;
 
+import java.util.Arrays;
+
 public class App {
 
   public static FVector<Integer> qsort(FVector<Integer> data) {
@@ -22,6 +24,15 @@ public class App {
     System.out.println(fv);
     FVector<Integer> neg = fv.map(x -> -x);
     System.out.println(neg);
+
+    FVector<Integer> neg2 = FVector.copyOf(neg);
+    System.out.println(neg2);
+    if (neg == neg2) {
+      System.out.println("neg is identical to neg2");
+    }
+
+    FVector<Integer> integers = FVector.copyOf(Arrays.asList(1, 2, 3));
+    System.out.printf("Integers: %s\n", integers);
 
     {
       FVector<Integer> v = FVector.of(1, 2, 3, 4);

@@ -32,6 +32,16 @@ public class FVector<E> extends AbstractList<E> implements PVector<E> {
     return result;
   }
 
+  public static <E> FVector<E> copyOf(Collection<? extends E> list) {
+    if (list instanceof TreePVector) {
+      return new FVector<>((TreePVector<E>) list);
+    } else if (list instanceof FVector) {
+      return (FVector<E>) list;
+    } else {
+      return FVector.<E>empty().plusAll(list);
+    }
+  }
+
 //    public static <E> FVector<E> concat()
 
   public static <E> FVector<E> concat(FVector<? extends E> arg1,
