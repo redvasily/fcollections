@@ -1,62 +1,96 @@
 package org.fcollections;
 
 import org.pcollections.PVector;
+import org.pcollections.TreePVector;
 
+import java.util.AbstractList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.function.*;
 
-public interface FVector<E> extends PVector<E> {
-  E head();
+public abstract class FVector<E> extends AbstractList<E>
+  implements PVector<E>, FCollection<E, FVector<E>> {
 
-  FVector<E> tail();
+  public static <E> FVector<E> empty() {
+    return new TreeFVector<>(TreePVector.empty());
+  }
 
-  FVector<E> plus(E e);
+  public static <E> FVector<E> of(E... args) {
+    FVector<E> result = FVector.empty();
+    for (E arg : args) {
+      result = result.plus(arg);
+    }
+    return result;
+  }
 
-  FVector<E> plusAll(Collection<? extends E> list);
+  @SuppressWarnings("unchecked")
+  public static <E> FVector<E> concat(FVector<? extends E> arg1,
+                                      FVector<? extends E> arg2) {
+    return ((FVector<E>) arg1).plusAll(arg2);
+  }
 
-  FVector<E> with(int i, E e);
+  @SuppressWarnings("unchecked")
+  public static <E> FVector<E> concat(FVector<? extends E> arg1,
+                                      FVector<? extends E> arg2,
+                                      FVector<? extends E> arg3) {
+    return ((FVector<E>) arg1).plusAll(arg2).plusAll(arg3);
+  }
 
-  FVector<E> plus(int i, E e);
+  @SuppressWarnings("unchecked")
+  public static <E> FVector<E> concat(FVector<? extends E>... args) {
+    FVector<E> result = ((FVector<E>) args[0]);
+    for (int i = 1; i < args.length; i++) {
+      result = result.plusAll(args[i]);
+    }
+    return result;
+  }
 
-  FVector<E> plusAll(int i, Collection<? extends E> list);
+  public abstract E head();
 
-  FVector<E> minus(Object e);
+  public abstract FVector<E> tail();
 
-  FVector<E> minusAll(Collection<?> list);
+  public abstract FVector<E> plus(E e);
 
-  FVector<E> minus(int i);
+  public abstract FVector<E> plusAll(Collection<? extends E> list);
 
-  FVector<E> subList(int start, int end);
+  public abstract FVector<E> with(int i, E e);
 
-  FVector<E> filter(Predicate<? super E> predicate);
+  public abstract FVector<E> plus(int i, E e);
 
-  <R> FVector<R> map(Function<? super E, ? extends R> mapFunction);
+  public abstract FVector<E> plusAll(int i, Collection<? extends E> list);
 
-  E reduce(E initial, BinaryOperator<E> reduceOp);
+  public abstract FVector<E> minus(Object e);
 
-  Optional<E> reduce(BinaryOperator<E> reduceOp);
+  public abstract FVector<E> minusAll(Collection<?> list);
 
-  <A> A foldLeft(A initial, BiFunction<A, ? super E, A> foldOp);
+  public abstract FVector<E> minus(int i);
+
+  public abstract FVector<E> subList(int start, int end);
+
+  public abstract E reduce(E initial, BinaryOperator<E> reduceOp);
+
+  public abstract Optional<E> reduce(BinaryOperator<E> reduceOp);
+
+  public abstract <A> A foldLeft(A initial, BiFunction<A, ? super E, A> foldOp);
+
+  public abstract <R> FVector<R> map(Function<? super E, ? extends R> mapFunction);
 
   @Override
   @Deprecated
-  default boolean removeIf(Predicate<? super E> predicate) {
+  public boolean removeIf(Predicate<? super E> predicate) {
     throw new UnsupportedOperationException();
   }
 
   @Override
   @Deprecated
-  default void replaceAll(UnaryOperator<E> unaryOperator) {
+  public void replaceAll(UnaryOperator<E> unaryOperator) {
     throw new UnsupportedOperationException();
   }
 
   @Override
   @Deprecated
-  default void sort(Comparator<? super E> comparator) {
+  public void sort(Comparator<? super E> comparator) {
     throw new UnsupportedOperationException();
   }
-
-
 }

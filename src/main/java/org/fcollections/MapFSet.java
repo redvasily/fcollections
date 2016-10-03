@@ -1,18 +1,34 @@
 package org.fcollections;
 
-import org.pcollections.Empty;
-import org.pcollections.HashTreePMap;
 import org.pcollections.MapPSet;
 
-import java.util.AbstractSet;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Optional;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
-import java.util.function.Predicate;
 
-public final class MapFSet<E> extends AbstractSet<E> implements FSet<E> {
+public final class MapFSet<E> extends FSet<E> {
+
+  private static class MapFSetBuilder<E> implements Builder<E, FSet<E>> {
+
+    private FSet<E> acc;
+
+    private MapFSetBuilder() {
+      acc = FSet.empty();
+    }
+
+    @Override
+    public void add(E element) {
+      acc = acc.plus(element);
+    }
+
+    @Override
+    public FSet<E> result() {
+      return acc;
+    }
+  }
+
 
   private MapPSet<E> pset;
 
@@ -59,23 +75,8 @@ public final class MapFSet<E> extends AbstractSet<E> implements FSet<E> {
   }
 
   @Override
-  public MapFSet<E> filter(Predicate<? super E> predicate) {
-    MapFSet<E> result = this;
-    for (E e : this) {
-      if (!predicate.test(e)) {
-        result = result.minus(e);
-      }
-    }
-    return result;
-  }
-
-  @Override
-  public <R> MapFSet<R> map(Function<? super E, ? extends R> mapFunction) {
-    MapFSet<R> result = new MapFSet<>(MapPSet.from(HashTreePMap.empty()));
-    for (E e : this) {
-      result = result.plus(mapFunction.apply(e));
-    }
-    return result;
+  public Builder<E, FSet<E>> newBuilder() {
+    return new MapFSetBuilder<>();
   }
 
   @Override
@@ -99,5 +100,12 @@ public final class MapFSet<E> extends AbstractSet<E> implements FSet<E> {
     return Optional.of(acc);
   }
 
-
+  @Override
+  public <R> FSet<R> map(Function<? super E, ? extends R> mapFunction) {
+    FSet<R> result = FSet.empty();
+    for (E e : this) {
+      result = result.plus(mapFunction.apply(e));
+    }
+    return result;
+  }
 }

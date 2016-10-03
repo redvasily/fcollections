@@ -2,17 +2,40 @@ package org.fcollections;
 
 import org.pcollections.TreePVector;
 
-import java.util.AbstractList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
-import java.util.function.Predicate;
 
-public class TreeFVector<E> extends AbstractList<E> implements FVector<E> {
+public class TreeFVector<E> extends FVector<E> {
+
   private TreePVector<E> pvector;
+
+  private static class TreeFVectorBuilder<E> implements Builder<E, FVector<E>> {
+
+    private FVector<E> acc;
+
+    private TreeFVectorBuilder() {
+      acc = FVector.empty();
+    }
+
+    @Override
+    public void add(E element) {
+      acc = acc.plus(element);
+    }
+
+    @Override
+    public FVector<E> result() {
+      return acc;
+    }
+  }
+
+  @Override
+  public Builder<E, FVector<E>> newBuilder() {
+    return new TreeFVectorBuilder<>();
+  }
 
   TreeFVector(TreePVector<E> pvector) {
     this.pvector = pvector;
@@ -89,29 +112,6 @@ public class TreeFVector<E> extends AbstractList<E> implements FVector<E> {
   }
 
   @Override
-  public TreeFVector<E> filter(Predicate<? super E> predicate) {
-    TreeFVector<E> result = this;
-    int i = 0;
-    for (E e : this) {
-      if (predicate.test(e)) {
-        i += 1;
-      } else {
-        result = result.minus(i);
-      }
-    }
-    return result;
-  }
-
-  @Override
-  public <R> TreeFVector<R> map(Function<? super E, ? extends R> mapFunction) {
-    TreeFVector<R> result = new TreeFVector<>(TreePVector.empty());
-    for (E e : this) {
-      result = result.plus(mapFunction.apply(e));
-    }
-    return result;
-  }
-
-  @Override
   public E reduce(E initial, BinaryOperator<E> reduceOp) {
     E acc = initial;
     for (E e : this) {
@@ -139,5 +139,14 @@ public class TreeFVector<E> extends AbstractList<E> implements FVector<E> {
       acc = foldOp.apply(acc, e);
     }
     return acc;
+  }
+
+  @Override
+  public <R> FVector<R> map(Function<? super E, ? extends R> mapFunction) {
+    FVector<R> result = FVector.empty();
+    for (E e : this) {
+      result = result.plus(mapFunction.apply(e));
+    }
+    return result;
   }
 }
