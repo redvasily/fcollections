@@ -3,6 +3,7 @@ package org.fcollections;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -63,10 +64,20 @@ public class FVectorTest {
       .containsExactly(2, 4);
   }
 
+  @Test
   public void map() {
-    FVector<Integer> map = FVector.of(1, 2).map(x -> x * 2);
+    assertThat(FVector.of(1, 2).map(x -> x * 2)).containsExactly(2, 4);
   }
 
+  @Test
+  public void reduce() {
+    assertThat(FVector.of(1, 2, 3, 4, 5).reduce(0, (a, b) -> a + b))
+      .isEqualTo(15);
+  }
 
-
+  @Test
+  public void reduceOptional() {
+    assertThat(FVector.of(1, 2, 3, 4, 5).reduce((a, b) -> a + b))
+      .isEqualTo(Optional.of(15));
+  }
 }

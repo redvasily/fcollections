@@ -12,7 +12,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 public abstract class FSet<E> extends AbstractSet<E>
-  implements PSet<E>, FCollection<E, FSet<E>> {
+  implements PSet<E>, FCollection<E>, FCollectionOps<E, FSet<E>> {
 
   public static <E> FSet<E> empty() {
     return new MapFSet<>(MapPSet.from(HashTreePMap.empty()));
@@ -31,16 +31,7 @@ public abstract class FSet<E> extends AbstractSet<E>
   @Override public abstract FSet<E> minus(Object e);
   @Override public abstract FSet<E> minusAll(Collection<?> list);
 
-  public abstract E head();
-  public abstract FSet<E> tail();
-  public abstract E reduce(E initial, BinaryOperator<E> reduceOp);
-  public abstract Optional<E> reduce(BinaryOperator<E> reduceOp);
+  @Override public abstract FSet<E> tail();
 
-  public abstract <R> FSet<R> map(Function<? super E, ? extends R> mapFunction);
-
-  @Override
-  @Deprecated
-  public boolean removeIf(Predicate<? super E> predicate) {
-    throw new UnsupportedOperationException();
-  }
+  @Override public abstract <R> FSet<R> map(Function<? super E, ? extends R> mapFunction);
 }

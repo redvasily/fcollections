@@ -112,36 +112,6 @@ public class TreeFVector<E> extends FVector<E> {
   }
 
   @Override
-  public E reduce(E initial, BinaryOperator<E> reduceOp) {
-    E acc = initial;
-    for (E e : this) {
-      acc = reduceOp.apply(acc, e);
-    }
-    return acc;
-  }
-
-  @Override
-  public Optional<E> reduce(BinaryOperator<E> reduceOp) {
-    if (isEmpty()) {
-      return Optional.empty();
-    }
-    E acc = get(0);
-    for (E e : tail()) {
-      acc = reduceOp.apply(acc, e);
-    }
-    return Optional.of(acc);
-  }
-
-  @Override
-  public <A> A foldLeft(A initial, BiFunction<A, ? super E, A> foldOp) {
-    A acc = initial;
-    for (E e : this) {
-      acc = foldOp.apply(acc, e);
-    }
-    return acc;
-  }
-
-  @Override
   public <R> FVector<R> map(Function<? super E, ? extends R> mapFunction) {
     FVector<R> result = FVector.empty();
     for (E e : this) {

@@ -5,6 +5,7 @@ import org.pcollections.MapPSet;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Optional;
+import java.util.function.BiFunction;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 
@@ -28,7 +29,6 @@ public final class MapFSet<E> extends FSet<E> {
       return acc;
     }
   }
-
 
   private MapPSet<E> pset;
 
@@ -77,27 +77,6 @@ public final class MapFSet<E> extends FSet<E> {
   @Override
   public Builder<E, FSet<E>> newBuilder() {
     return new MapFSetBuilder<>();
-  }
-
-  @Override
-  public E reduce(E initial, BinaryOperator<E> reduceOp) {
-    E acc = initial;
-    for (E e : this) {
-      acc = reduceOp.apply(acc, e);
-    }
-    return acc;
-  }
-
-  @Override
-  public Optional<E> reduce(BinaryOperator<E> reduceOp) {
-    if (isEmpty()) {
-      return Optional.empty();
-    }
-    E acc = head();
-    for (E e : tail()) {
-      acc = reduceOp.apply(acc, e);
-    }
-    return Optional.of(acc);
   }
 
   @Override

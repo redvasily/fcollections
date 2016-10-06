@@ -48,7 +48,7 @@ public class App {
 
     {
       FVector<Integer> v = FVector.of(1, 2, 3, 4, 5, 6, 8);
-      Integer r = v.foldLeft(0, (acc, e) -> e % 2 == 0 ? acc + 1 : acc);
+      Integer r = v.fold(0, (acc, e) -> e % 2 == 0 ? acc + 1 : acc);
       System.out.println(r);
     }
 

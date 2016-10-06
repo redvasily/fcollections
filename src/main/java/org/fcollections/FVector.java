@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.function.*;
 
 public abstract class FVector<E> extends AbstractList<E>
-  implements PVector<E>, FCollection<E, FVector<E>> {
+  implements PVector<E>, FCollection<E>, FCollectionOps<E, FVector<E>> {
 
   public static <E> FVector<E> empty() {
     return new TreeFVector<>(TreePVector.empty());
@@ -46,41 +46,27 @@ public abstract class FVector<E> extends AbstractList<E>
     return result;
   }
 
-  public abstract E head();
+  @Override public abstract FVector<E> tail();
 
-  public abstract FVector<E> tail();
+  @Override public abstract FVector<E> plus(E e);
 
-  public abstract FVector<E> plus(E e);
+  @Override public abstract FVector<E> plusAll(Collection<? extends E> list);
 
-  public abstract FVector<E> plusAll(Collection<? extends E> list);
+  @Override public abstract FVector<E> with(int i, E e);
 
-  public abstract FVector<E> with(int i, E e);
+  @Override public abstract FVector<E> plus(int i, E e);
 
-  public abstract FVector<E> plus(int i, E e);
+  @Override public abstract FVector<E> plusAll(int i, Collection<? extends E> list);
 
-  public abstract FVector<E> plusAll(int i, Collection<? extends E> list);
+  @Override public abstract FVector<E> minus(Object e);
 
-  public abstract FVector<E> minus(Object e);
+  @Override public abstract FVector<E> minusAll(Collection<?> list);
 
-  public abstract FVector<E> minusAll(Collection<?> list);
+  @Override public abstract FVector<E> minus(int i);
 
-  public abstract FVector<E> minus(int i);
+  @Override public abstract FVector<E> subList(int start, int end);
 
-  public abstract FVector<E> subList(int start, int end);
-
-  public abstract E reduce(E initial, BinaryOperator<E> reduceOp);
-
-  public abstract Optional<E> reduce(BinaryOperator<E> reduceOp);
-
-  public abstract <A> A foldLeft(A initial, BiFunction<A, ? super E, A> foldOp);
-
-  public abstract <R> FVector<R> map(Function<? super E, ? extends R> mapFunction);
-
-  @Override
-  @Deprecated
-  public boolean removeIf(Predicate<? super E> predicate) {
-    throw new UnsupportedOperationException();
-  }
+  @Override public abstract <R> FVector<R> map(Function<? super E, ? extends R> mapFunction);
 
   @Override
   @Deprecated
