@@ -94,8 +94,7 @@ Fcollections make the following code possible:
 Status
 ======
 
-Seriously though, this is a joke. FVector in this library has only enough methods for
-a quicksort implementation.
+FVector has successfully be extended to support all methods needed for a quicksort implementation.
 
 
 .. _pcollections: http://pcollections.org/
